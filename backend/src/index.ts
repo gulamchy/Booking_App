@@ -8,9 +8,21 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 
 dotenv.config();
-mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string)
-    .then(() => console.log('MongoDB connected successfully'))
-    .catch(err => console.error('Failed to connect to MongoDB', err));
+// mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string)
+//     .then(() => console.log('MongoDB connected successfully'))
+//     .catch(err => console.error('Failed to connect to MongoDB', err));
+
+const connectToDatabase = async () => {
+    try {
+        await mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string);
+        console.log('MongoDB connected successfully');
+    } catch (err) {
+        console.error('Failed to connect to MongoDB', err);
+        process.exit(1);
+    }
+};
+
+connectToDatabase();
 
 const app = express();
 app.use(cookieParser());
