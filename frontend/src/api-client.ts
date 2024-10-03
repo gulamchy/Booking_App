@@ -1,7 +1,7 @@
 import { RegisterFormData } from './pages/register';
 import { SignInFormData } from './pages/signin';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 export const register = async (formData: RegisterFormData) => {
     const response = await fetch(`${API_BASE_URL}/api/users/register`, {
@@ -60,3 +60,26 @@ export const logout = async () => {
         throw new Error("Error during logout!");
     }
 }
+
+
+export const addMyHotel = async (hotelFormData: FormData) => {
+    
+    const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
+        method: "POST",
+        credentials: "include",
+        body: hotelFormData,
+    });
+    
+    if(!response.ok){
+        // throw new Error("Failed to add hotel");
+        const errorData = await response.json();
+        console.error("API Error:", errorData);
+        throw new Error(errorData.message);
+    }
+
+
+    return response.json();
+};
+
+
+
